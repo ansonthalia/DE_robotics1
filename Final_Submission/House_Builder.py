@@ -72,7 +72,7 @@ def house_coordinates(x, y, z, width, height):
 
                 y = coefficient_odd[count_brick-1]*h
 
-                z= int(((count_layer)/2))*(h+t) + h*((count_layer)%2) - 0.03
+                z= int(((count_layer)/2))*(h+t) + h*((count_layer)%2) - 0.07
 
                 layer_list.append((0,y,z))
 
