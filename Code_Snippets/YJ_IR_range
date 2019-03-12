@@ -4,8 +4,8 @@ from sensor_msgs.msg import Range
 
 def callback(data):
     if data.range >= 15:
-        print "hello"
-    print data.range  
+        print "too far"
+    print (data.range)
    
 def listener():
     rospy.init_node('listener', anonymous=True)
