@@ -88,10 +88,10 @@ def main():
     h_orientation = Quaternion(x=quat[0], y=quat[1], z=quat[2], w=quat[3])
 
     lv_pick = Pose(
-        position=Point(x=0.100, y=0.700, z=0.27),
+        position=Point(x=0.100, y=0.700, z=0.23),
         orientation=v_orientation)
     rv_pick = Pose(
-        position=Point(x=0.1, y=-0.69, z=0.27),
+        position=Point(x=0.1, y=-0.69, z=0.23),
         orientation=v_orientation)
     lh_pick = Pose(
         position=Point(x=0.3, y=0.7, z=0.13),
@@ -104,7 +104,7 @@ def main():
     base = 3
     height = 1
 
-    block_poses = posify(house_coordinates(), v_orientation, h_orientation)
+    block_poses = posify(house_coordinates(0.5, 0, 0.1, 5, 3), v_orientation, h_orientation)
 
     # move to the desired starting angles
     hocl.move_to_start(left_start)
