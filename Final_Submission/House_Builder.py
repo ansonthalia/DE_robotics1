@@ -6,35 +6,56 @@ from geometry_msgs.msg import (
 )
 
 
-def house_coordinates():
+def house_coordinates(x, y, z, width, height):
+# x was set to 0.5 (dist of table from deniro) and z was 0.1 (height of table)
+# coordinates are x, y, z and width, height
 
     t = 0.06  #thickness
     w = 0.09  #width
     h = 0.2  #height
 
-    # coordinates are (x,y,z)
-    # middle block is (0,0,170)
     # bottom of table is (0,0,0)
 
     # one list of all positions in order
-    list_of_positions = [[(0,0,0), (0,0,0), (0,0,0), (0,0,0), (0,0,0)],
-    [(0,0,0), (0,0,0), (0,0,0), (0,0,0)],[(0,0,0), (0,0,0), (0,0,0), (0,0,0)],
-    [(0,0,0), (0,0,0), (0,0,0)], [(0,0,0), (0,0,0), (0,0,0)], [(0,0,0), (0,0,0)],
-    [(0,0,0), (0,0,0)], [0,0,0]]
-
-
+    list_of_positions = []
 
     # number of bricks in each layer
     layers = [5, 4, 4, 3, 3, 2, 2, 1]
 
-    # coefficients for alternating brick picking from middle
+    # height determines number of layers
+    if height%h+t > 100:
+        # this structure's height will be divisible by h+t
+        number_of_layers = int(height/(h+t))
+    else:
+        # this structure's height will be divisible by (h+t) + h
+        number_of_layers = int(height/(h+t)+1)
+
+    # width determines which element in layers to start from
+    if int(width/h) == 4:
+        #start from 1st element
+        layers = layers
+    elif int(width/h) == 3:
+        #start from 3rd element
+        del layers[0:2]
+    elif int(width/h) == 2:
+        #start from 5th element
+        del layers[0:4]
+    elif int(width/h) == 1:
+        #start from 7th element
+        del layers[0:6]
+
+    #coefficients for alternating brick picking from middle
     coefficient_odd = [0, 1.1, -1.1, 2.2, -2.2]
     coefficient_even = [-0.55, 0.55, -1.65, 1.65]
 
     #count layers
     count_layer = 1
 
-    for i in range(len(layers)):
+    # height determines which element in layer we end on from base layer
+    for i in range(number_of_layers):
+
+        #list of coordinates for this specific layer
+        layer_list = []
 
         # iterate through layers
         current_layer = layers[i]
@@ -46,59 +67,33 @@ def house_coordinates():
         for x in range(current_layer):
 
 
-            #if layer is ODD NUMBER OF BRICKS and VERTICAL then... (layer 1, 5)
-            if current_layer%2 == 1 and count_layer%2 == 1:
+            #if layer is ODD NUMBER OF BRICKS
+            if current_layer%2 == 1:
 
                 y = coefficient_odd[count_brick-1]*h
 
-                z= int(((count_layer)/2))*(h+t) + h - 0.03 + 0.1
+                z= int(((count_layer)/2))*(h+t) + h*((count_layer)%2) - 0.03
 
-                #print(0,y,z)
-
-                list_of_positions[count_layer-1][count_brick-1] = (0.5,y,z)
-
-                count_brick = count_brick + 1
-
-            # if layer is ODD NUMBER OF BRICKS and HORIZONTAL then... (layer 4, 8)
-            elif current_layer%2 == 1 and count_layer%2 == 0:
-
-                y= coefficient_odd[count_brick-1]*h
-
-                z= int(((count_layer)/2))*(h+t) - 0.03 + 0.1
-                #print(0,y,z)
-
-                if count_layer == 8:
-                    list_of_positions[7]=[(0.5,y,z)]
-                else:
-                    list_of_positions[count_layer-1][count_brick-1] = (0.5,y,z)
+                layer_list.append((0,y,z))
 
                 count_brick += 1
 
-            # if layer is EVEN NUMBER OF BRICKS and VERTICAL then... (layer 3, 7)
-            elif current_layer%2 == 0 and count_layer%2 == 1:
+            # if layer is EVEN NUMBER OF BRICKS
+            elif current_layer%2 == 0:
 
                 y= coefficient_even[count_brick-1]*h
 
-                z= int(((count_layer)/2))*(h+t) + h - 0.03 + 0.1
-                #print(0,y,z)
-                list_of_positions[count_layer-1][count_brick-1] = (0.5,y,z)
+                z= int(((count_layer)/2))*(h+t) + h*((count_layer)%2) - 0.03
 
-                count_brick = count_brick + 1
-
-            # if layer is EVEN NUMBER OF BRICKS and HORIZONTAL then... (layer 2, 6)
-            elif current_layer%2 == 0 and count_layer%2 == 0:
-
-                y= coefficient_even[count_brick-1]*h
-
-                z= int(((count_layer)/2))*(h+t) - 0.03 + 0.1
-                #print(0,y,z)
-                list_of_positions[count_layer-1][count_brick-1] = (0.5,y,z)
+                layer_list.append((0,y,z))
 
                 count_brick = count_brick + 1
 
 
-            # move on to next layer
+        # move on to next layer
         count_layer = count_layer + 1
+
+        list_of_positions.append(layer_list)
 
     return list_of_positions
 
