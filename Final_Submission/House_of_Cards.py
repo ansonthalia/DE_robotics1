@@ -7,6 +7,7 @@ import copy
 import time
 import numpy as np
 from tf.transformations import *
+from Colour_detect import*
 
 import rospy
 import rospkg
@@ -117,56 +118,62 @@ def main():
     # loop to pick and place the entire structure
     i = 0
     n = 1
-
+    #add percentage brick colour list
+    percentage_bc = [0]
     while not rospy.is_shutdown() & i > len(block_poses):
         for j in range(len(block_poses[i])):
-            if i % 2:
-                print("\nHorizontal block row")
-                if j % 2:
-                    print("\nUsing left")
-                    load_Flat(n,'l')
-                    print("\nPicking...")
-                    hocl.pick(lh_pick)
-                    print("\nPlacing...")
-                    hocl.place(block_poses[i][j])
-                    print("Returning to start...")
-                    hocl.move_to_start(left_start)
-                    n+=1
+            percentage_bc_indiv = colour_detect()
+            if percentage_bc_indiv > percentage_bc[j]:
+                percentage_bc = percentage_bc.append(percentage_bc_indiv)
+                if i % 2:
+                    print("\nHorizontal block row")
+                    if j % 2:
+                        print("\nUsing left")
+                        load_Flat(n,'l')
+                        print("\nPicking...")
+                        hocl.pick(lh_pick)
+                        print("\nPlacing...")
+                        hocl.place(block_poses[i][j])
+                        print("Returning to start...")
+                        hocl.move_to_start(left_start)
+                        n+=1
+                    else:
+                        print("\nUsing right")
+                        load_Flat(n,'r')
+                        print("\nPicking...")
+                        hocr.pick(rh_pick)
+                        print("\nPlacing...")
+                        hocr.place(block_poses[i][j])
+                        print("Returning to start...")
+                        hocr.move_to_start(right_start)
+                        n+=1
                 else:
-                    print("\nUsing right")
-                    load_Flat(n,'r')
-                    print("\nPicking...")
-                    hocr.pick(rh_pick)
-                    print("\nPlacing...")
-                    hocr.place(block_poses[i][j])
-                    print("Returning to start...")
-                    hocr.move_to_start(right_start)
-                    n+=1
-            else:
-                print("\nVertical block row")
-                if j % 2:
-                    print("\nUsing left")
-                    load_UP(n,'l')
-                    print("\nPicking...")
-                    hocl.pick(lv_pick)
-                    print("\nPlacing...")
-                    hocl.place(block_poses[i][j])
-                    print("Returning to start...")
-                    hocl.move_to_start(left_start)
-                    n+=1
-                else:
-                    print("\nUsing right")
-                    load_UP(n,'r')
-                    print("\nPicking...")
-                    hocr.pick(rv_pick)
-                    print("\nPlacing...")
-                    hocr.place(block_poses[i][j])
-                    print("Returning to start...")
-                    hocr.move_to_start(right_start)
-                    n+=1
-            j += 1
-        i += 1
-    return
+                    print("\nVertical block row")
+                    if j % 2:
+                        print("\nUsing left")
+                        load_UP(n,'l')
+                        print("\nPicking...")
+                        hocl.pick(lv_pick)
+                        print("\nPlacing...")
+                        hocl.place(block_poses[i][j])
+                        print("Returning to start...")
+                        hocl.move_to_start(left_start)
+                        n+=1
+                    else:
+                        print("\nUsing right")
+                        load_UP(n,'r')
+                        print("\nPicking...")
+                        hocr.pick(rv_pick)
+                        print("\nPlacing...")
+                        hocr.place(block_poses[i][j])
+                        print("Returning to start...")
+                        hocr.move_to_start(right_start)
+                        n+=1
+                    j += 1
+                i += 1
+            else: 
+                print('What a fail')
+        return
 
 if __name__ == '__main__':
     sys.exit(main())
