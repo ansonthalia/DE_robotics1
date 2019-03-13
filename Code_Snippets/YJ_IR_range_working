@@ -1,0 +1,84 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+I am still working on this code to find a way to
+a. constantly check IR distance in the background of pick and place code (make this code a module?)
+b. make this code a class()
+"""
+
+import rospy
+from sensor_msgs.msg import Range
+import wobbler
+
+#callback IR range and wobbles when distance is longer than 10
+def callback(data):
+    if data.range >= 0.1:
+        wobbler.wobble()
+    print(data.range)  
+
+#calls back from IR sensor on the right end-effector
+def rh_listener():
+    #creates a node called listener and assigns random number to allow node w/ same name
+    rospy.init_node('listener', anonymous=True)
+    #assigns to IR sensor
+    print "1"
+    #connect right hand range topic
+    rospy.Subscriber("/robot/range/right_hand_range/state", Range, callback)
+
+    # spin() simply keeps python from exiting until this node is stopped
+    rospy.spin()
+
+#callsback from IR sensor on the left end-effector
+def lh_listener():
+    #creates a node called listener and assigns random number to allow node w/ same name
+    rospy.init_node('listener', anonymous=True)
+    #assigns to IR sensor
+    print "1"
+    #connect left hand range topic
+    rospy.Subscriber("/robot/range/left_hand_range/state", Range, callback)
+
+    # spin() simply keeps python from exiting until this node is stopped
+    rospy.spin()
+    
+    
+rh_listener()
+lh_listener()
+
+"""
+This part is to find out
+"""
+#When function is activated and finish
+#between pick and place
+            else:
+                print("\nVertical block row")
+                if j % 2:
+                    print("\nUsing left")
+                    load_UP(n,'l')
+                    print("\nPicking...")
+                    hocl.pick(lv_pick)
+                    print("\nPlacing...")
+                    if collision_check_wobble.listener() = true:
+                        hocl.place(block_poses[i][j])
+                    else:
+                        wobbler.wobble()
+                    print("Returning to start...")
+                    hocl.move_to_start(left_start)
+                    n+=1
+                else:
+                    print("\nUsing right")
+                    load_UP(n,'r')
+                    print("\nPicking...")
+                    hocr.pick(rv_pick)
+                    print("\nPlacing...")
+                    hocr.place(block_poses[i][j])
+                    print("Returning to start...")
+                    hocr.move_to_start(right_start)
+                    n+=1
+                j += 1
+            i += 1
+            #else: 
+               # print('What a fail')
+        return
+
+#When to use rh and lh
+
