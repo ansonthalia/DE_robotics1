@@ -1,3 +1,6 @@
+#---------Colour Detect----------
+#Colour detect is used to detect brick colour from the head_camera.
+
 import numpy as np
 import argparse
 import cv2
@@ -38,12 +41,12 @@ class Camera:
 
         # Initialize
         rospy.init_node('take_photo', anonymous=False)
-        camera = TakePhoto()
+        DENIRO_camera = TakePhoto()
 
         # Take a photo
         img_title = 'head_view'
 
-        if camera.take_picture(img_title):
+        if DENIRO_camera.take_picture(img_title):
             rospy.loginfo("Saved image " + img_title)
         else:
             rospy.loginfo("No images received")
@@ -53,19 +56,17 @@ class Camera:
         return img_title
 
 #directory = 'supreme.png' --This was used to test 
-DENIRO_cam = Camera()
-get_image = DENIRO_cam.take_photo()
+#Diretory found manually for picture taken by head_camera
 
-#Diretory found manually
-
-
-
+#colour_detect() function is used to calculate the percentage brick colour in the head_camera image. 
+#This is used to check to see if the structure has fallen
 def colour_detect(directory):
     
     #define image directory
     directory = 'Camera/head_view.png'
     # load the image
     image = cv2.imread(directory)
+    #convert to HSV for better colour detect
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
     # create NumPy arrays for boundaries. These need to be calibrated. 
@@ -77,7 +78,9 @@ def colour_detect(directory):
     output = cv2.bitwise_and(image, image, mask=mask)
 
     # show the images for debugging
-    cv2.imshow("images", np.hstack([image, output]))
+    #cv2.imshow("images", np.hstack([image, output]))
+    
+    #Calculations for percentage brick colour
     height, width = mask.shape[:2]  
     pixel_no = float(height*width)
     count = float(0)
