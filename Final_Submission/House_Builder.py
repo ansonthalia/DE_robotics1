@@ -81,7 +81,7 @@ def house_coordinates(x, y, z, width, height):
 
                 z= int(((count_layer)/2))*(h+t) + h*((count_layer)%2) - 0.03
 
-                layer_list.append((0,y,z))
+                layer_list.append((x,y,z))
 
                 count_brick += 1
 
@@ -92,7 +92,7 @@ def house_coordinates(x, y, z, width, height):
 
                 z= int(((count_layer)/2))*(h+t) + h*((count_layer)%2) - 0.03
 
-                layer_list.append((0,y,z))
+                layer_list.append((x,y,z))
 
                 count_brick = count_brick + 1
 
