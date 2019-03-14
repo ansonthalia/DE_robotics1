@@ -70,7 +70,7 @@ class Camera:
 def colour_detect(directory):
     
     #define image directory
-    directory = 'Camera/head_view.png'
+    #directory = 'Camera/head_view.png'
     # load the image
     image = cv2.imread(directory)
     #convert to HSV for better colour detect
