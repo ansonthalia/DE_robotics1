@@ -8,41 +8,54 @@ b. make this code a class()
 
 import rospy
 from sensor_msgs.msg import Range
-import wobbler
-
+from time import sleep
 #callback IR range and wobbles when distance is longer than 10
-def callback(data):
-    if data.range >= 0.1:
-        wobbler.wobble()
-    print(data.range)  
+class DENIRO_IR:
+    def __init__(self, side):
+        self.brick_present = False
+        self.side = side
+        
+    def check_brick(self):
+        if slef.side == 'l':
 
-#calls back from IR sensor on the right end-effector
-def rh_listener():
-    #creates a node called listener and assigns random number to allow node w/ same name
-    rospy.init_node('listener', anonymous=True)
-    #assigns to IR sensor
-    print "1"
-    #connect right hand range topic
-    rospy.Subscriber("/robot/range/right_hand_range/state", Range, callback)
+            # Connect image topic
+            ir_topic = "/robot/range/right_hand_range/state"
+            print "1"
+            self.ir_sub = rospy.Subscriber(ir_topic, Range, self.callback)
 
-    # spin() simply keeps python from exiting until this node is stopped
-    rospy.spin()
+            # Allow up to one second to connection
+            rospy.sleep(1)
+            
+        if self.side == 'r':
+            self.bridge = CvBridge()
+            self.image_received = False
 
-#callsback from IR sensor on the left end-effector
-def lh_listener():
-    #creates a node called listener and assigns random number to allow node w/ same name
-    rospy.init_node('listener', anonymous=True)
-    #assigns to IR sensor
-    print "1"
-    #connect left hand range topic
-    rospy.Subscriber("/robot/range/left_hand_range/state", Range, callback)
+            # Connect image topic
+            ir_topic = "/robot/range/right_hand_range/state"
+            print "1"
+            self.ir_sub = rospy.Subscriber(ir_topic, Range, self.callback)
 
-    # spin() simply keeps python from exiting until this node is stopped
-    rospy.spin()
+            # Allow up to one second to connection
+            rospy.sleep(1)
+
+    def callback(self, data):
+        if data.range >= 0.1:
+            self.brick_present = True
+        else:
+            self.brick_present = False
+        print(data.range)  
+         
+def ir_check(side):
+    '''argument can only be l&r'''
+    #Initialise node
+    rospy.init_node('listener %s'%side, anonymous=False)
+    ir_sensor = DENIRO_IR(side)
     
+    if ir_sensor.brick_present == True:
+        return True
+    else:
+        return False
     
-rh_listener()
-lh_listener()
 
 """
 This part is to find out
@@ -57,10 +70,9 @@ This part is to find out
                     print("\nPicking...")
                     hocl.pick(lv_pick)
                     print("\nPlacing...")
-                    if collision_check_wobble.listener() = true:
-                        hocl.place(block_poses[i][j])
-                    else:
-                        wobbler.wobble()
+                    rh_listener()
+                    if callback == True:
+                        print('Oh darn')
                     print("Returning to start...")
                     hocl.move_to_start(left_start)
                     n+=1
