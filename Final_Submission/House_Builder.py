@@ -25,26 +25,31 @@ def house_coordinates(x, y, z, width, height):
     layers = [5, 4, 4, 3, 3, 2, 2, 1]
 
     # height determines number of layers
-    if height%h+t > 100:
-        # this structure's height will be divisible by h+t
-        number_of_layers = int(height/(h+t))
+    if (height*1000)%((h*1000)+(t*1000)) < 200:
+        # this structure's height will be divisible by h+t + 1
+        number_of_layers = int(height/(h+t))*2
     else:
-        # this structure's height will be divisible by (h+t) + h
-        number_of_layers = int(height/(h+t)+1)
-
+        # this structure's height will be divisible by (h+t)
+        number_of_layers = int(height/(h+t))*2 + 1
     # width determines which element in layers to start from
-    if int(width/h) == 4:
+    if  int((width*10)/(h*10)) == 4:
         #start from 1st element
         layers = layers
-    elif int(width/h) == 3:
+    elif int((width*10)/(h*10)) == 3:
         #start from 3rd element
         del layers[0:2]
-    elif int(width/h) == 2:
+    elif int((width*10)/(h*10)) == 2:
         #start from 5th element
         del layers[0:4]
-    elif int(width/h) == 1:
+    elif int((width*10)/(h*10)) == 1:
         #start from 7th element
         del layers[0:6]
+
+    print(number_of_layers)
+    print(layers)
+    # when width is smaller than height
+    if len(layers) < number_of_layers:
+        number_of_layers = len(layers)
 
     #coefficients for alternating brick picking from middle
     coefficient_odd = [0, 1.1, -1.1, 2.2, -2.2]
@@ -96,7 +101,6 @@ def house_coordinates(x, y, z, width, height):
         count_layer = count_layer + 1
 
         list_of_positions.append(layer_list)
-
     print(list_of_positions)
     return list_of_positions
 
