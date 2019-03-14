@@ -140,21 +140,24 @@ class DENIRO_IR:
             rospy.sleep(1)
 
     def callback(self, data):
-        if data.range <= 0.6:
+        if data.range <= 0.04:
             self.brick_present = True
         else:
             self.brick_present = False
          
 def ir_check(side):
     '''This function checks using the ir_sensor if a brick is present. 
-    This is to be called during the picking part of pick and place.'''
-    
-    #Initialise node
-    rospy.init_node('listener %s'%side, anonymous=False)
-    ir_sensor = DENIRO_IR(side)
-    
-    if ir_sensor.brick_present == True:
-        return True
-    else:
-        return False
-    
+    This is to be called during the picking part of pick and place. The args
+    to this function must be l or r'''
+    if side == 'l' or side == 'r': 
+        #Initialise node
+        rospy.init_node('listener %s'%side, anonymous=False)
+        ir_sensor = DENIRO_IR(side)
+
+        if ir_sensor.brick_present == True:
+            return True
+        else:
+            return False
+    else: 
+        print('Error %s is not l or r' %side)
+
