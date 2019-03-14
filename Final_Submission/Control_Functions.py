@@ -1,12 +1,7 @@
 #-------------------Control Functions---------------------
 '''This file is a selection of functions called by House_of_Cards() to add some robustness to the process of
 building the structure.These functions allow the system to know if issues have arisen during the brick moving
-process. The system can know if it Drops a Brick, the Structural Fails and ........Enter what Sophies Code does here........'''
-
-
-
-#---------Structure Detect----------
-#Structure detect is used to detect brick colour from the head_camera.
+process. The system can know if it drops a Brick or if the Structural Fails.'''
 
 import numpy as np
 import argparse
@@ -64,10 +59,13 @@ class Camera:
 
 #directory = 'supreme.png' --This was used to test colout_detect
 
-#colour_detect() function is used to calculate the percentage brick colour in the head_camera image. 
-#This is used to check to see if the structure has fallen
 def colour_detect():
-    
+    '''
+    colour_detect() function is used to calculate the percentage
+    brick colour in the head_camera image. It uses the images from 
+    the take_photo() function above which takes photos using the head_camera
+    This is used to check to see if the structure has fallen.
+    '''
     #define image directory
     directory = '~/Control_Functions/head_view.png'
     # load the image
