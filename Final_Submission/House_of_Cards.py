@@ -167,6 +167,9 @@ def main():
                     print("\nPicking...")
                     hocl.pick(lf_pick) # pick up from the left flat brick spot
                     print("\nPlacing...")
+                    if not ir_check('l'): # check if brick has been picked up
+                        failed = True
+                        break
                     hocl.place(block_poses[i][j]) # place into structure
                     print("Returning to start...")
                     hocl.move_to_start(left_start) # return to start
@@ -177,6 +180,9 @@ def main():
                     print("\nPicking...")
                     hocr.pick(rf_pick) # pick up from the right flat brick spot
                     print("\nPlacing...")
+                    if not ir_check('r'): # check if brick has been picked up
+                        failed = True
+                        break
                     hocr.place(block_poses[i][j]) # place into structure
                     print("Returning to start...")
                     hocr.move_to_start(right_start) # return to start
@@ -198,6 +204,9 @@ def main():
                     print("\nPicking...")
                     hocl.pick(lu_pick) # pick up from the left upright brick spot
                     print("\nPlacing...")
+                    if not ir_check('l'): # check if brick has been picked up
+                        failed = True
+                        break
                     hocl.place(block_poses[i][j]) # place into structure
                     print("Returning to start...")
                     hocl.move_to_start(left_start) # return to start
@@ -208,6 +217,9 @@ def main():
                     print("\nPicking...")
                     hocr.pick(ru_pick) # pick up from the right upright brick spot
                     print("\nPlacing...")
+                    if not ir_check('r'): # check if brick has been picked up
+                        failed = True
+                        break
                     hocr.place(block_poses[i][j]) # place into structure
                     print("Returning to start...")
                     hocr.move_to_start(right_start) # return to start
