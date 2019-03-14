@@ -11,7 +11,6 @@ import copy
 import time
 import numpy as np
 from tf.transformations import *
-from Colour_detect import*
 
 import rospy
 import rospkg
@@ -123,7 +122,7 @@ def main():
 
     # creating the target brick postiions for DENIRO, to see details of the
     # function arguments look in House_Bilder.py
-    block_poses = posify(house_coordinates(0.5, 0, 0.1, 1s.5, 1.5),
+    block_poses = posify(house_coordinates(0.5, 0, 0.1, 1.5, 1.5),
                                             v_orientation, h_orientation)
 
     # move arms to the desired starting angles
