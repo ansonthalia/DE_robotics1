@@ -29,7 +29,7 @@ Videos contains four files.
 * How to run the simulation code
 
 ## Installation
-We used VMware Workstation in order to run our virtual machine. This is a paid product which we were provided with through our university. We also had a customised virtual machine to run with DENIRO however this code can be run if the Baxter vritual machine [setup instructions](http://sdk.rethinkrobotics.com/wiki/Hello_Baxter#Required_Hardware) are followed.
+We used VMware Workstation in order to run our virtual machine. This is a paid product which we were provided with through our university. We also had a customised virtual machine to run with DENIRO however this code can be run if the Baxter vritual machine [setup instructions](http://sdk.rethinkrobotics.com/wiki/Hello_Baxter#Required_Hardware) are followed. To run House_of_Cards.py, move all scripts to the scripts folder in baxter_simulator/baxter_sim_examples and models to models folder in the same directory.
 
 ## Assessment notes
 The introduction video will give a good overview of the intentions of the project. For ease in idetifying the work we have created below is a list of modifications/additions and a breif description.
