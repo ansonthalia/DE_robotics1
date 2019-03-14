@@ -123,7 +123,7 @@ def main():
 
     # creating the target brick postiions for DENIRO, to see details of the
     # function arguments look in House_Bilder.py
-    block_poses = posify(house_coordinates(0.5, 0, 0.1, 1.5, 1.5),
+    block_poses = posify(house_coordinates(0.5, 0, 0.1, 1s.5, 1.5),
                                             v_orientation, h_orientation)
 
     # move arms to the desired starting angles
@@ -134,7 +134,7 @@ def main():
     # please see Model_Spawn to make modifications
     load_tables()
 
-    # wait for tables to spawn before movement
+    # wait for tables to spawn
     time.sleep(3)
 
     # loop to pick and place the entire structure i counts through the levels

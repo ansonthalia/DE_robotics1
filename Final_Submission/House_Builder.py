@@ -71,7 +71,7 @@ def house_coordinates(x, y, z, width, height):
         count_brick = 1
 
         # iterate through bricks in layer
-        for x in range(current_layer):
+        for j in range(current_layer):
 
 
             #if layer is ODD NUMBER OF BRICKS
