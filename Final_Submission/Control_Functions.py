@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 #-------------------Control Functions---------------------
 '''This file is a selection of functions called by House_of_Cards() to add some robustness to the process of
 building the structure.These functions allow the system to know if issues have arisen during the brick moving
@@ -6,7 +9,11 @@ process. The system can know if it drops a Brick or if the Structural Fails.'''
 import numpy as np
 import argparse
 import cv2
+import rospy
+from sensor_msgs.msg import Range
 
+
+#-------Structure Check-------
 class DENIRO_camera:
     def __init__(self):
 
@@ -101,3 +108,56 @@ def colour_detect():
     cv2.waitKey(0)
 
     return percentage
+
+#------Brick Spawn Check------
+
+class DENIRO_IR:
+    def __init__(self, side):
+        self.brick_present = False
+        self.side = side
+        
+    def check_brick(self):
+        if slef.side == 'l':
+
+            # Connect image topic
+            ir_topic = "/robot/range/right_hand_range/state"
+            print "1"
+            self.ir_sub = rospy.Subscriber(ir_topic, Range, self.callback)
+
+            # Allow up to one second to connection
+            rospy.sleep(1)
+            
+        if self.side == 'r':
+            self.bridge = CvBridge()
+            self.image_received = False
+
+            # Connect image topic
+            ir_topic = "/robot/range/right_hand_range/state"
+            print "1"
+            self.ir_sub = rospy.Subscriber(ir_topic, Range, self.callback)
+
+            # Allow up to one second to connection
+            rospy.sleep(1)
+
+    def callback(self, data):
+        if data.range <= 0.04:
+            self.brick_present = True
+        else:
+            self.brick_present = False
+         
+def ir_check(side):
+    '''This function checks using the ir_sensor if a brick is present. 
+    This is to be called during the picking part of pick and place. The args
+    to this function must be l or r'''
+    if side == 'l' or side == 'r': 
+        #Initialise node
+        rospy.init_node('listener %s'%side, anonymous=False)
+        ir_sensor = DENIRO_IR(side)
+
+        if ir_sensor.brick_present == True:
+            return True
+        else:
+            return False
+    else: 
+        print('Error %s is not l or r' %side)
+
