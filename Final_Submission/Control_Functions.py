@@ -1,12 +1,7 @@
 #-------------------Control Functions---------------------
 '''This file is a selection of functions called by House_of_Cards() to add some robustness to the process of
 building the structure.These functions allow the system to know if issues have arisen during the brick moving
-process. The system can know if it Drops a Brick, the Structural Fails and ........Enter what Sophies Code does here........'''
-
-
-
-#---------Structure Detect----------
-#Structure detect is used to detect brick colour from the head_camera.
+process. The system can know if it drops a Brick or if the Structural Fails.'''
 
 import numpy as np
 import argparse
@@ -19,7 +14,7 @@ class Camera:
         self.image_received = False
 
         # Connect image topic
-        img_topic = "/camera/rgb/image_raw"
+        img_topic = "/cameras/head_camera/image"
         self.image_sub = rospy.Subscriber(img_topic, Image, self.callback)
 
         # Allow up to one second to connection
@@ -38,7 +33,7 @@ class Camera:
 
     def take_picture(self, img_title):
         if self.image_received:
-            # Save an image
+            # Save an image in folder 'Control_Functions'
             cv2.imwrite(img_title, self.image)
             return True
         else:
@@ -62,15 +57,17 @@ class Camera:
         rospy.sleep(1)
         return img_title
 
-#directory = 'supreme.png' --This was used to test 
-#Diretory found manually for picture taken by head_camera
+#directory = 'supreme.png' --This was used to test colout_detect
 
-#colour_detect() function is used to calculate the percentage brick colour in the head_camera image. 
-#This is used to check to see if the structure has fallen
-def colour_detect(directory):
-    
+def colour_detect():
+    '''
+    colour_detect() function is used to calculate the percentage
+    brick colour in the head_camera image. It uses the images from 
+    the take_photo() function above which takes photos using the head_camera
+    This is used to check to see if the structure has fallen.
+    '''
     #define image directory
-    #directory = 'Camera/head_view.png'
+    directory = '~/Control_Functions/head_view.png'
     # load the image
     image = cv2.imread(directory)
     #convert to HSV for better colour detect
