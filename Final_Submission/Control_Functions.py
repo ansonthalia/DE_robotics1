@@ -7,7 +7,7 @@ import numpy as np
 import argparse
 import cv2
 
-class Camera:
+class DENIRO_camera:
     def __init__(self):
 
         self.bridge = CvBridge()
@@ -39,23 +39,23 @@ class Camera:
         else:
             return False
 
-    def take_photo():
+def take_photo():
 
-        # Initialize
-        rospy.init_node('take_photo', anonymous=False)
-        DENIRO_camera = TakePhoto()
+    # Initialize
+    rospy.init_node('take_photo', anonymous=False)
+    take_photo = DENIRO_camera()
 
-        # Take a photo
-        img_title = 'head_view'
+    # Take a photo
+    img_title = 'head_view'
 
-        if DENIRO_camera.take_picture(img_title):
-            rospy.loginfo("Saved image " + img_title)
-        else:
-            rospy.loginfo("No images received")
+    if take_photo.take_picture(img_title):
+        rospy.loginfo("Saved image " + img_title)
+    else:
+        rospy.loginfo("No images received")
 
-        # Sleep to give the last log messages time to be sent
-        rospy.sleep(1)
-        return img_title
+    # Sleep to give the last log messages time to be sent
+    rospy.sleep(1)
+    return img_title
 
 #directory = 'supreme.png' --This was used to test colout_detect
 
