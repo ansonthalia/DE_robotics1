@@ -28,7 +28,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 """
-Baxter RSDK Inverse Kinematics Pick and Place Demo
+Baxter RSDK Inverse Kinematics Pick and Place modified for House of Cards
 """
 
 import argparse
@@ -142,6 +142,8 @@ class PickAndPlace(object):
         self._guarded_move_to_joint_position(joint_angles)
 
     def _lift(self, pose):
+        '''custom function to ensure that the robot raises its arm to the
+        height of the tower before attempting to place'''
         # retrieve current pose from endpoint
         current_pose = self._limb.endpoint_pose()
         ik_pose = Pose()
@@ -189,6 +191,7 @@ class PickAndPlace(object):
         self._retract()
 
     def place(self, pose):
+        # servo to height of tower
         self._lift(pose)
         # servo above pose
         self._approach(pose)
