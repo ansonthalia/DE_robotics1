@@ -38,7 +38,7 @@ class Camera:
 
     def take_picture(self, img_title):
         if self.image_received:
-            # Save an image
+            # Save an image in folder 'Control_Functions'
             cv2.imwrite(img_title, self.image)
             return True
         else:
@@ -62,15 +62,14 @@ class Camera:
         rospy.sleep(1)
         return img_title
 
-#directory = 'supreme.png' --This was used to test 
-#Diretory found manually for picture taken by head_camera
+#directory = 'supreme.png' --This was used to test colout_detect
 
 #colour_detect() function is used to calculate the percentage brick colour in the head_camera image. 
 #This is used to check to see if the structure has fallen
-def colour_detect(directory):
+def colour_detect():
     
     #define image directory
-    #directory = 'Camera/head_view.png'
+    directory = '~/Control_Functions/head_view.png'
     # load the image
     image = cv2.imread(directory)
     #convert to HSV for better colour detect
