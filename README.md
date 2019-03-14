@@ -20,11 +20,11 @@ Final_Submission contains code to be submitted for assessment.
 
 Models contains the modified URDF files which we used in order to spawn objects into the simulation.
 
-Examples contains the orignal example code given to us along with the DENIRO virtual machine (identical to the example code given with the original Baxter virtual machine).
+Examples contains the original example code given to us along with the DENIRO virtual machine (identical to the example code given with the original Baxter virtual machine).
 
 Videos contains four files. 
 * Detials the project brief
-* Code running on thephyscial robot
+* Code running on the physcial robot
 * Code running in the Gazebo simulation 
 * How to run the simulation code
 
