@@ -43,12 +43,12 @@ def take_photo():
 
     # Initialize
     rospy.init_node('take_photo', anonymous=False)
-    DENIRO_camera = TakePhoto()
+    take_photo = DENIRO_camera()
 
     # Take a photo
     img_title = 'head_view'
 
-    if DENIRO_camera.take_picture(img_title):
+    if take_photo.take_picture(img_title):
         rospy.loginfo("Saved image " + img_title)
     else:
         rospy.loginfo("No images received")
