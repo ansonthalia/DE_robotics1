@@ -212,8 +212,8 @@ def main():
                     print("Returning to start...")
                     hocr.move_to_start(right_start) # return to start
                     n+=1
-                j += 1
-            i += 1
+            j += 1
+        i += 1
     if failed:
         print("OHH MANNNN! Not again.")
     return
