@@ -30,3 +30,13 @@ Videos contains four files.
 
 ## Installation
 We used VMware Workstation in order to run our virtual machine. This is a paid product which we were provided with through our university. We also had a customised virtual machine to run with DENIRO however this code can be run if the Baxter vritual machine [setup instructions](http://sdk.rethinkrobotics.com/wiki/Hello_Baxter#Required_Hardware) are followed.
+
+## Assessment notes
+The introduction video will give a good overview of the intentions of the project. For ease in idetifying the work we have created below is a list of modifications/additions and a breif description.
+* Models - we have created our own brick and table URDF files in order to help the simulation run more smoothly
+* Model_Spawn – loosely based on the demo but mostly original with modifications to allow for unlimited spawning
+* Pick_n_Place - based on demo with the added lift function allowsing DENIRO to clear the height of the structure
+* House_Builder – completely original functions used to create a list of target brick coordinates in the correct order
+* Control_Functions – using multiple resources the functions here get feedback from robot sensors
+* House_of_Cards – the main function which calls upon functions from all other files to execute the task
+ 
