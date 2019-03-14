@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from geometry_msgs.msg import (
     PoseStamped,
     Pose,
@@ -8,8 +10,8 @@ from geometry_msgs.msg import (
 
 def house_coordinates(x, y, z, width, height):
 # x was set to 0.5 (dist of table from deniro) and z was 0.1 (height of table)
-# coordinates are x, y, z and width, height  
-    
+# coordinates are x, y, z and width, height
+
     t = 0.06  #thickness
     w = 0.09  #width
     h = 0.2  #height
@@ -21,18 +23,18 @@ def house_coordinates(x, y, z, width, height):
 
     # number of bricks in each layer
     layers = [5, 4, 4, 3, 3, 2, 2, 1]
-    
-    # height determines number of layers 
+
+    # height determines number of layers
     if height%h+t > 100:
-        # this structure's height will be divisible by h+t 
+        # this structure's height will be divisible by h+t
         number_of_layers = int(height/(h+t))
     else:
         # this structure's height will be divisible by (h+t) + h
-        number_of_layers = int(height/(h+t)+1) 
+        number_of_layers = int(height/(h+t)+1)
 
     # width determines which element in layers to start from
     if int(width/h) == 4:
-        #start from 1st element 
+        #start from 1st element
         layers = layers
     elif int(width/h) == 3:
         #start from 3rd element
@@ -42,21 +44,21 @@ def house_coordinates(x, y, z, width, height):
         del layers[0:4]
     elif int(width/h) == 1:
         #start from 7th element
-        del layers[0:6]    
-        
+        del layers[0:6]
+
     #coefficients for alternating brick picking from middle
     coefficient_odd = [0, 1.1, -1.1, 2.2, -2.2]
     coefficient_even = [-0.55, 0.55, -1.65, 1.65]
 
     #count layers
     count_layer = 1
-    
+
     # height determines which element in layer we end on from base layer
     for i in range(number_of_layers):
-        
+
         #list of coordinates for this specific layer
         layer_list = []
-    
+
         # iterate through layers
         current_layer = layers[i]
 
@@ -72,10 +74,10 @@ def house_coordinates(x, y, z, width, height):
 
                 y = coefficient_odd[count_brick-1]*h
 
-                z= int(((count_layer)/2))*(h+t) + h*((count_layer)%2) - 0.03 
+                z= int(((count_layer)/2))*(h+t) + h*((count_layer)%2) - 0.03
 
                 layer_list.append((0,y,z))
-                
+
                 count_brick += 1
 
             # if layer is EVEN NUMBER OF BRICKS
@@ -83,8 +85,8 @@ def house_coordinates(x, y, z, width, height):
 
                 y= coefficient_even[count_brick-1]*h
 
-                z= int(((count_layer)/2))*(h+t) + h*((count_layer)%2) - 0.03 
-              
+                z= int(((count_layer)/2))*(h+t) + h*((count_layer)%2) - 0.03
+
                 layer_list.append((0,y,z))
 
                 count_brick = count_brick + 1
@@ -92,10 +94,10 @@ def house_coordinates(x, y, z, width, height):
 
         # move on to next layer
         count_layer = count_layer + 1
-        
+
         list_of_positions.append(layer_list)
-    
-    print(list_of_positions)    
+
+    print(list_of_positions)
     return list_of_positions
 
 def posify(Coordinates, v_orientation, h_orientation):
